@@ -1,6 +1,6 @@
 using System;
 
-namespace CoffeeRoastery.BLL.Interface.Services;
+namespace CoffeeRoastery.BLL.Interface.Dto;
 
 public class ProductResponse
 {

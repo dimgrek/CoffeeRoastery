@@ -19,5 +19,7 @@ public class AutoMapperProfile : Profile
             .ForMember(dest => dest.UpdatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
         CreateMap<UpdateProductModel, UpdateProductDto>();
 
+        CreateMap<AuthModel, AuthDto>();
+
     }
 }

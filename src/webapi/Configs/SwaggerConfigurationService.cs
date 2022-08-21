@@ -16,7 +16,14 @@ public static class SwaggerConfigurationService
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Title = "CoffeeRoastery api",
-                Version = "v1"
+                Version = "v1",
+                Description = "A simple API to roast delicious coffee",
+                Contact = new OpenApiContact
+                {
+                    Name = "Dmitriy Grek",
+                    Email = "dimgrek@gmail.com",
+                    Url = new Uri("https://www.linkedin.com/in/dmitriy-grek-1035a72a/")
+                }
             });
 
             c.AddSecurityDefinition("Bearer",
