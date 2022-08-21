@@ -23,7 +23,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{productId}")]
-    public async Task<IActionResult> GetProductById(Guid productId)
+    public async Task<IActionResult> GetById(Guid productId)
     {
         return await productService.GetById(productId).ToActionResult();
     }
@@ -32,5 +32,17 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> Create(ProductModel model)
     {
         return await productService.Create(mapper.Map<ProductDto>(model)).ToActionResult();
+    }
+    
+    [HttpPatch("")]
+    public async Task<IActionResult> Update(UpdateProductModel model)
+    {
+        return await productService.Update(mapper.Map<UpdateProductDto>(model)).ToActionResult();
+    }
+    
+    [HttpDelete("{productId}")]
+    public async Task<IActionResult> DeleteById(Guid productId)
+    {
+        return await productService.DeleteById(productId).ToActionResult();
     }
 }

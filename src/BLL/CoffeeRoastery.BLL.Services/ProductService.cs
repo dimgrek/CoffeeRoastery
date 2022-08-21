@@ -52,7 +52,7 @@ public class ProductService : IProductService
         {
             if (await productRepository.ExistsByName(dto.Name))
             {
-                const string message = "Product already exists found. name={0}";
+                const string message = "Product already exists. name={0}";
                 logger.LogWarning(message, dto.Name);
                 return Result.Fail<ProductResponse>(message, dto.Name);
             }
@@ -67,6 +67,66 @@ public class ProductService : IProductService
         {
             logger.LogError(ex, "Failed to {method}, message: {message}", nameof(Create), ex.Message);
             return Result.Fail<ProductResponse>($"Failed to {nameof(Create)}");
+        }
+    }
+
+    public async Task<Result<ProductResponse>> Update(UpdateProductDto dto)
+    {
+        logger.LogInformation("{method} called", nameof(Update));
+        try
+        {
+            var product = await productRepository.GetByIdAsync(dto.Id);
+            if (product is null)
+            {
+                const string message = "Product not found. productId={0}";
+                logger.LogWarning(message, dto.Id);
+                return Result.Fail<ProductResponse>(message, dto.Id);
+            }
+            
+            if (await productRepository.ExistsByName(dto.Name))
+            {
+                const string message = "Product already exists. name={0}";
+                logger.LogWarning(message, dto.Name);
+                return Result.Fail<ProductResponse>(message, dto.Name);
+            }
+
+            product.Name = dto.Name;
+            product.CountryOfOrigin = dto.CountryOfOrigin;
+            product.UpdatedDate = DateTime.UtcNow;
+            
+            await productRepository.SaveChangesAsync();
+
+            return Result.Ok(mapper.Map<ProductResponse>(product));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to {method}, message: {message}", nameof(Update), ex.Message);
+            return Result.Fail<ProductResponse>($"Failed to {nameof(Create)}");
+        }
+    }
+
+    public async Task<Result> DeleteById(Guid productId)
+    {
+        logger.LogInformation("{method} called for productId={productId}", nameof(DeleteById), productId);
+        try
+        {
+            var product = await productRepository.GetByIdAsync(productId);
+            if (product is null)
+            {
+                const string message = "Product not found. productId={0}";
+                logger.LogWarning(message, productId);
+                return Result.Fail<ProductResponse>(message, productId);
+            }
+
+            await productRepository.RemoveAsync(product.Id);
+            await productRepository.SaveChangesAsync();
+
+            return Result.Ok();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to {method}, message: {message}, productId={productId}", nameof(DeleteById), ex.Message, productId);
+            return Result.Fail<ProductResponse>($"Failed to {nameof(DeleteById)}");
         }
     }
 }
