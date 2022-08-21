@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using CoffeeRoastery.BLL.Interface.Common;
@@ -45,6 +46,22 @@ public class ProductService : IProductService
         }
     }
 
+    public Result<IEnumerable<ProductResponse>> GetAll()
+    {
+        logger.LogInformation("{method} called", nameof(GetAll));
+        try
+        {
+            var products = productRepository.GetAll();
+            
+            return Result.Ok(mapper.Map<IEnumerable<ProductResponse>>(products));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to {method}, message: {message}", nameof(GetAll), ex.Message);
+            return Result.Fail<IEnumerable<ProductResponse>>($"Failed to {nameof(GetAll)}");
+        }
+    }
+
     public async Task<Result<ProductResponse>> Create(ProductDto dto)
     {
         logger.LogInformation("{method} called", nameof(Create));
@@ -83,7 +100,8 @@ public class ProductService : IProductService
                 return Result.Fail<ProductResponse>(message, dto.Id);
             }
             
-            if (await productRepository.ExistsByName(dto.Name))
+            //to enable editing of product found by id if same name was passed
+            if (!dto.Name.Equals(product.Name) && await productRepository.ExistsByName(dto.Name))
             {
                 const string message = "Product already exists. name={0}";
                 logger.LogWarning(message, dto.Name);
@@ -101,7 +119,7 @@ public class ProductService : IProductService
         catch (Exception ex)
         {
             logger.LogError(ex, "Failed to {method}, message: {message}", nameof(Update), ex.Message);
-            return Result.Fail<ProductResponse>($"Failed to {nameof(Create)}");
+            return Result.Fail<ProductResponse>($"Failed to {nameof(Update)}");
         }
     }
 

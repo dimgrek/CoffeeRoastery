@@ -28,6 +28,12 @@ public class ProductController : ControllerBase
         return await productService.GetById(productId).ToActionResult();
     }
     
+    [HttpGet("all")]
+    public IActionResult GetAll()
+    {
+        return productService.GetAll().ToActionResult();
+    }
+    
     [HttpPost("")]
     public async Task<IActionResult> Create(ProductModel model)
     {
