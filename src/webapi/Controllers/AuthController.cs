@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CoffeeRoastery.BLL.Interface.Dto;
 using CoffeeRoastery.BLL.Interface.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Extensions;
 using webapi.Models;
@@ -22,6 +23,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> Authenticate(AuthModel model)
     {
         return await authService.Authenticate(mapper.Map<AuthDto>(model)).ToActionResult();

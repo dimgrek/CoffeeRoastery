@@ -36,13 +36,15 @@ public class TokenService : ITokenService
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("userName", userName) }),
                 Expires = DateTime.UtcNow.AddHours(1),
+                Audience = options.Audience,
+                Issuer = options.Issuer,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var response = new JwtTokenResponse
             {
                 AccessToken = tokenHandler.WriteToken(token),
-                ExpiresIn = DateTime.UtcNow.AddHours(1).Second,
+                ExpiresIn = TimeSpan.FromHours(1).TotalSeconds,
                 TokenType = "Bearer"
             };
         

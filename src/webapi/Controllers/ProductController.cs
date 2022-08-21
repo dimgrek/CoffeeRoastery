@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CoffeeRoastery.BLL.Interface.Dto;
 using CoffeeRoastery.BLL.Interface.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Extensions;
 using webapi.Models;
@@ -10,6 +11,7 @@ using webapi.Models;
 namespace webapi.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("products")]
 public class ProductController : ControllerBase
 {

@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Text.Json.Serialization;
 using CoffeeRoastery.BLL.Interface.Common;
 using CoffeeRoastery.BLL.Interface.Services;
@@ -6,12 +7,14 @@ using CoffeeRoastery.BLL.Services;
 using CoffeeRoastery.DAL.Interface.Repositories;
 using CoffeeRoastery.DAL.PostgreSQL.Context;
 using CoffeeRoastery.DAL.PostgreSQL.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using webapi.Configs;
@@ -60,23 +63,24 @@ public class Startup
         services.AddScoped<ITokenService, TokenService>();
 
         //configure JWT
-        //todo: add JWT config
+        var jwtBearerOptions = Configuration.GetSection(JWTTokenOptions.ConfigurationKey).Get<JWTTokenOptions>();
 
-        // services.AddAuthentication(options =>
-        // {
-        //     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        //     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-        // }).AddJwtBearer(options =>
-        // {
-        //     options.MetadataAddress = authOptions.MetadataAddress;
-        //     options.SaveToken = authOptions.SaveToken;
-        //
-        //     options.IncludeErrorDetails = authOptions.IncludeErrorDetails;
-        //     options.TokenValidationParameters = new TokenValidationParameters
-        //     {
-        //         ValidateAudience = authOptions.TokenValidationParameters.ValidateAudience
-        //     };
-        // });
+        services
+            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtBearerOptions.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtBearerOptions.Audience,
+                    ValidateLifetime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtBearerOptions.Secret)),
+                    ValidateIssuerSigningKey = true,
+                };
+            });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
