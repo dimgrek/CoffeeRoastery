@@ -15,11 +15,14 @@ public class CoffeeRoasteryContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<Product>()
+            .HasIndex(x => x.Name)
+            .IsUnique();
 
         #region Data
 
         
-
         #endregion
     }
 }

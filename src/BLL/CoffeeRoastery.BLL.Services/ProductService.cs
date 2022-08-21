@@ -2,7 +2,9 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using CoffeeRoastery.BLL.Interface.Common;
+using CoffeeRoastery.BLL.Interface.Dto;
 using CoffeeRoastery.BLL.Interface.Services;
+using CoffeeRoastery.DAL.Domain.Models;
 using CoffeeRoastery.DAL.Interface.Repositories;
 using Microsoft.Extensions.Logging;
 
@@ -23,7 +25,7 @@ public class ProductService : IProductService
 
     public async Task<Result<ProductResponse>> GetById(Guid productId)
     {
-        logger.LogInformation("{method} called", nameof(GetById));
+        logger.LogInformation("{method} called for productId={productId}", nameof(GetById), productId);
         try
         {
             var product = await productRepository.GetByIdAsync(productId);
@@ -38,8 +40,33 @@ public class ProductService : IProductService
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to {method}, message: {message}", nameof(GetById), ex.Message);
+            logger.LogError(ex, "Failed to {method}, message: {message}, productId={productId}", nameof(GetById), ex.Message, productId);
             return Result.Fail<ProductResponse>($"Failed to {nameof(GetById)}");
+        }
+    }
+
+    public async Task<Result<ProductResponse>> Create(ProductDto dto)
+    {
+        logger.LogInformation("{method} called", nameof(Create));
+        try
+        {
+            if (await productRepository.ExistsByName(dto.Name))
+            {
+                const string message = "Product already exists found. name={0}";
+                logger.LogWarning(message, dto.Name);
+                return Result.Fail<ProductResponse>(message, dto.Name);
+            }
+
+            var product = mapper.Map<Product>(dto);
+            await productRepository.AddAsync(product);
+            await productRepository.SaveChangesAsync();
+
+            return Result.Ok(mapper.Map<ProductResponse>(product));
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Failed to {method}, message: {message}", nameof(Create), ex.Message);
+            return Result.Fail<ProductResponse>($"Failed to {nameof(Create)}");
         }
     }
 }
