@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace webapi;
+namespace webapi.Extensions;
 
 public static class ServicesExtensions
 {

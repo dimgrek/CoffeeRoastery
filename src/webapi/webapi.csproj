@@ -17,17 +17,13 @@
 		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.2-dev-00890" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\BLL\CoffeeRoastery.BLL.Services\CoffeeRoastery.BLL.Services.csproj" />
 		<ProjectReference Include="..\DAL\CoffeeRoastery.DAL.PostgreSQL\CoffeeRoastery.DAL.PostgreSQL.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Extensions" />
 	</ItemGroup>
 
 

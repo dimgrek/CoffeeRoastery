@@ -1,6 +1,10 @@
 using System;
 using System.Text.Json.Serialization;
+using CoffeeRoastery.BLL.Interface.Services;
+using CoffeeRoastery.BLL.Services;
+using CoffeeRoastery.DAL.Interface.Repositories;
 using CoffeeRoastery.DAL.PostgreSQL.Context;
+using CoffeeRoastery.DAL.PostgreSQL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using webapi.Configs;
+using webapi.Extensions;
 
 namespace webapi;
 
@@ -39,7 +44,13 @@ public class Startup
         Action<DbContextOptionsBuilder> dbContextOptions = options =>
             options.UseNpgsql(Configuration.GetConnectionString("PostgreSQL.CoffeeRoastery"));
         services.AddDbContext<CoffeeRoasteryContext>(dbContextOptions);
+
+        //add repositories
+        services.AddScoped<IProductRepository, ProductRepository>();
         
+        //add services
+        services.AddScoped<IProductService, ProductService>();
+
         //configure JWT
         //todo: add JWT config
 

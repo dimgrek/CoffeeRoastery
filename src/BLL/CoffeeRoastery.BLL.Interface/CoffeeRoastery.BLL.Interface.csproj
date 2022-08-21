@@ -5,12 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Common" />
     <Folder Include="Dto" />
-    <Folder Include="Services" />
   </ItemGroup>
 
 </Project>
