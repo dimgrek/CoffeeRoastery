@@ -88,6 +88,7 @@ public class CustomWebApplicationFactory<TStartup>
 
         try
         {
+            db.Database.EnsureDeleted();
             if (db.Database.EnsureCreated())
             {
                 Setup.InitializeDbForTests(db);

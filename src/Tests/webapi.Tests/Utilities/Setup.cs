@@ -7,7 +7,7 @@ static class Setup
 {
     public static void InitializeDbForTests(CoffeeRoasteryContext context)
     {
-
+        context.Products.AddRange(Defaults.Products);
         context.SaveChanges();
     }
 
