@@ -6,5 +6,5 @@ namespace CoffeeRoastery.BLL.Interface.Services;
 
 public interface IAuthService
 {
-    Task<Result<JwtTokenResponse>> Authenticate(AuthDto dto);
+    Result<JwtTokenResponse> Authenticate(AuthDto dto);
 }

@@ -8,7 +8,6 @@ using CoffeeRoastery.BLL.Interface.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using webapi.Options;
 
 namespace CoffeeRoastery.BLL.Services;
 

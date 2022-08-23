@@ -3,7 +3,7 @@ using CoffeeRoastery.DAL.Domain.Models;
 using FluentAssertions;
 using FluentAssertions.Equivalency;
 
-namespace webapi.Tests.Consts;
+namespace webapi.Tests.Comparers;
 
 public class ProductComparer : IEquivalencyStep
 {

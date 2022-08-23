@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using CoffeeRoastery.BLL.Interface.Dto;
 using FluentAssertions;
 using webapi.Models;
+using webapi.Tests.Comparers;
 using webapi.Tests.Consts;
 using webapi.Tests.Extensions;
 using Xunit;

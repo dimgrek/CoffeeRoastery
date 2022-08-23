@@ -1,5 +1,4 @@
-﻿
-namespace webapi.Tests.Auth;
+﻿namespace webapi.Tests.Auth;
 
 public class AuthUser
 {

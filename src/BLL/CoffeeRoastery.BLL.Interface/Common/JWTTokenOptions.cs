@@ -1,6 +1,4 @@
-using System.Text;
-
-namespace webapi.Options;
+namespace CoffeeRoastery.BLL.Interface.Common;
 
 public class JWTTokenOptions
 {

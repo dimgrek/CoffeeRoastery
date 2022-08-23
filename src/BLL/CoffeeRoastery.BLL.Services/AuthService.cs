@@ -21,7 +21,7 @@ public class AuthService : IAuthService
         this.logger = logger;
     }
 
-    public async Task<Result<JwtTokenResponse>> Authenticate(AuthDto dto)
+    public Result<JwtTokenResponse> Authenticate(AuthDto dto)
     {
         logger.LogInformation("{method} called", nameof(Authenticate));
         try

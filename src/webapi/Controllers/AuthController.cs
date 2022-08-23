@@ -33,8 +33,8 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(JwtTokenResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Authenticate(AuthModel model)
+    public IActionResult Authenticate(AuthModel model)
     {
-        return await authService.Authenticate(mapper.Map<AuthDto>(model)).ToActionResult();
+        return authService.Authenticate(mapper.Map<AuthDto>(model)).ToActionResult();
     }
 }

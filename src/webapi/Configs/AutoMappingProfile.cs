@@ -1,7 +1,6 @@
 ﻿using System;
 using AutoMapper;
 using CoffeeRoastery.BLL.Interface.Dto;
-using CoffeeRoastery.BLL.Interface.Services;
 using CoffeeRoastery.DAL.Domain.Models;
 using webapi.Models;
 

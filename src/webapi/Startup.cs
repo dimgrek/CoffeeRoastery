@@ -20,7 +20,6 @@ using Newtonsoft.Json.Converters;
 using webapi.Configs;
 using webapi.Extensions;
 using webapi.Middleware;
-using webapi.Options;
 
 namespace webapi;
 
