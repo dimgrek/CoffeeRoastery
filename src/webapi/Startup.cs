@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using webapi.Configs;
 using webapi.Extensions;
+using webapi.Middleware;
 using webapi.Options;
 
 namespace webapi;
@@ -100,6 +101,7 @@ public class Startup
         app.UseCors();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 

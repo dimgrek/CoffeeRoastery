@@ -46,9 +46,14 @@ public class ProductControllerTests : BaseTest
 
         var productResponse = await response.BodyAs<IEnumerable<ProductResponse>>();
 
-        productResponse.Select(x=>x.Id).Should().BeEquivalentTo(products.Select(x=>x.Id));
-        productResponse.Select(x=>x.Name).Should().BeEquivalentTo(products.Select(x=>x.Name));
-        productResponse.Select(x=>x.CountryOfOrigin).Should().BeEquivalentTo(products.Select(x=>x.CountryOfOrigin));
+        if (productResponse != null)
+        {
+            var productResponses = productResponse.ToList();
+            productResponses.Select(x => x.Id).Should().BeEquivalentTo(products.Select(x => x.Id));
+            productResponses.Select(x => x.Name).Should().BeEquivalentTo(products.Select(x => x.Name));
+            productResponses.Select(x => x.CountryOfOrigin).Should()
+                .BeEquivalentTo(products.Select(x => x.CountryOfOrigin));
+        }
     }
     
     [Fact]
@@ -66,8 +71,8 @@ public class ProductControllerTests : BaseTest
 
         var productResponse = await response.BodyAs<ProductResponse>();
 
-        productResponse.Name.Should().Be(productModel.Name);
-        productResponse.CountryOfOrigin.Should().Be(productModel.CountryOfOrigin);
+        productResponse?.Name.Should().Be(productModel.Name);
+        productResponse?.CountryOfOrigin.Should().Be(productModel.CountryOfOrigin);
     }
     
     [Fact]
@@ -103,9 +108,9 @@ public class ProductControllerTests : BaseTest
 
         var productResponse = await response.BodyAs<ProductResponse>();
 
-        productResponse.Id.Should().Be(productModel.Id);
-        productResponse.Name.Should().Be(productModel.Name);
-        productResponse.CountryOfOrigin.Should().Be(productModel.CountryOfOrigin);
+        productResponse?.Id.Should().Be(productModel.Id);
+        productResponse?.Name.Should().Be(productModel.Name);
+        productResponse?.CountryOfOrigin.Should().Be(productModel.CountryOfOrigin);
     }
     
     [Fact]

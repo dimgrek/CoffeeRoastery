@@ -15,7 +15,7 @@ public class HealthCheckController : ControllerBase
     }
 
     /// <summary>
-    ///     Health check endpoint
+    ///     Endpoint for health check 
     /// </summary>
     /// <remarks>
     /// </remarks>
