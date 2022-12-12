@@ -35,6 +35,7 @@ public class AuthController : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public IActionResult Authenticate(AuthModel model)
     {
+        //todo: this is to rollback
         return authService.Authenticate(mapper.Map<AuthDto>(model)).ToActionResult();
     }
 }
